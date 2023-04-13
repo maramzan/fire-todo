@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { collection, doc, onSnapshot, query, updateDoc, addDoc } from "firebase/firestore";
+import { collection, doc, onSnapshot, query, updateDoc, addDoc, deleteDoc } from "firebase/firestore";
 import { db } from "./config/firebase";
 import "firebase/firestore";
+import { async } from "@firebase/util";
 
 interface TodoTypes {
   todo_text: string;
@@ -69,8 +70,9 @@ function App() {
     setTodoText(todo.todo_text);
   };
 
-  const deleteTodo = () => {
+  const deleteTodo = async (id: string) => {
     // delete todo from firebase here
+    await deleteDoc(doc(db, "fire-todos", id));
   };
 
   return (
@@ -86,7 +88,7 @@ function App() {
             <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }} key={todo.id}>
               <input type="checkbox" checked={todo.completed} onChange={(e) => updateTodo(todo)} />
               <p>{todo.todo_text}</p>
-              <button onClick={deleteTodo}>delete</button>
+              <button onClick={() => deleteTodo(todo.id)}>delete</button>
               <button onClick={() => (isUpdating ? saveChanges(todo) : editTodo(todo))}>{isUpdating ? "Update" : "Edit"}</button>
             </div>
           );
