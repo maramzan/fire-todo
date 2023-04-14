@@ -7,6 +7,9 @@ const useTodo = () => {
   const [todos, setTodos] = useState([]);
   const [todoText, setTodoText] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
+  const [deleteTaskId, setDeleteTaskId] = useState<string>("");
+  const [editTaskId, setEditTaskId] = useState<string>("");
+  const [showError, setShowError] = useState(false);
 
   useEffect(() => {
     const q = query(collection(db, "fire-todos"));
@@ -23,6 +26,10 @@ const useTodo = () => {
   const addTodo = async (e: { preventDefault: () => void }) => {
     try {
       e.preventDefault();
+      if (todoText === "") {
+        setShowError(true);
+        return;
+      }
       await addDoc(collection(db, "fire-todos"), {
         todo_text: todoText,
         completed: false,
@@ -42,38 +49,53 @@ const useTodo = () => {
       updatedAt: new Date().toString(),
     });
   };
-  const saveChanges = async (todo: TodoTypes) => {
-    // edit todo from firebase here
-    setTodoText(todo.todo_text);
-    const response = await updateDoc(doc(db, "fire-todos", todo.id), {
+  const saveChanges = async () => {
+    const response = await updateDoc(doc(db, "fire-todos", editTaskId), {
       todo_text: todoText,
       updatedAt: new Date().toString(),
     });
+    console.log(response);
     setTodoText("");
+    setEditTaskId("");
     setIsUpdating(false);
   };
 
   const editTodo = (todo: TodoTypes) => {
-    // edit todo from firebase here
     setIsUpdating(true);
     setTodoText(todo.todo_text);
+    setEditTaskId(todo.id);
   };
 
-  const deleteTodo = async (id: string) => {
-    // delete todo from firebase here
-    await deleteDoc(doc(db, "fire-todos", id));
+  const deleteTodo = async () => {
+    await deleteDoc(doc(db, "fire-todos", deleteTaskId));
+    setDeleteTaskId("");
+  };
+
+  const handleConfirmDelete = () => {
+    if (deleteTaskId !== "") {
+      deleteTodo();
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setDeleteTaskId("");
   };
 
   return {
     addTodo,
-    updateTodo,
     editTodo,
-    deleteTodo,
+    updateTodo,
     saveChanges,
     setTodoText,
-    isUpdating,
-    todoText,
+    setShowError,
+    setDeleteTaskId,
+    handleCancelDelete,
+    handleConfirmDelete,
     todos,
+    todoText,
+    showError,
+    isUpdating,
+    deleteTaskId,
   };
 };
 
