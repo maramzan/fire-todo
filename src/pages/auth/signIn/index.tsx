@@ -111,25 +111,17 @@ function SignIn() {
                 <span className="px-2 bg-white text-gray-500">Or continue with</span>
               </div>
             </div>
-            <div className="mt-6 grid grid-cols-3 gap-3">
+            {/* <div className="mt-6 grid grid-cols-3 gap-3">
               <div>
                 <button
                   type="button"
                   className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                   onClick={handleGoogleSignIn}
                 >
-                  {/* <span className="sr-only">Sign in with Google</span> */}
                   Sign in with Google
-                  {/* <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                    <path
-                      fillRule="evenodd"
-                      d="M3 3a1 1 0 00-1 1v12a1 1 0 001 1h14a1 1 0 001-1V4a1 1 0 00-1-1H3zm7.293 1.293a1 1 0 011.414 0L11 6.586l3.293-3.293a1 1 0 111.414 1.414l-3.293 3.293 3.293 3.293a1 1 0 01-1.414 1.414L11 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l3.293-3.293-3.293-3.293a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg> */}
                 </button>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
